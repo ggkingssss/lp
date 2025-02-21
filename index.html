@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>和小恒 AI 聊天</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #response {
+            margin-top: 20px;
+            font-size: 18px;
+            color: blue;
+        }
+    </style>
+    <script>
+        function sendMessage() {
+            let message = document.getElementById("message").value;
+            if (!message) {
+                alert("请输入消息！");
+                return;
+            }
+
+            fetch("https://lp-1-qsid.onrender.com/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "message": message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response").innerText = "AI: " + (data.response || "出错了，请稍后再试");
+            })
+            .catch(error => console.error("错误:", error));
+        }
+    </script>
+</head>
+<body>
+    <h2>和小恒 AI 聊天</h2>
+    <p>请输入消息，然后点击发送</p>
+    <input type="text" id="message" placeholder="输入消息...">
+    <button onclick="sendMessage()">发送</button>
+    <p id="response"></p>
+</body>
+</html>
+
+
